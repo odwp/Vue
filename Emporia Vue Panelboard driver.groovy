@@ -26,7 +26,7 @@ metadata {
         namespace: 'esphome',
         author: 'Wayne Pirtle',
         singleThreaded: true,
-   //     importUrl: 'https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-MeteringOutlet.groovy'
+        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20Panelboard%20driver.groovy'
     ) {
 
         capability 'Actuator'
