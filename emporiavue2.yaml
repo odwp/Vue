@@ -1,5 +1,8 @@
 # This is a configuration for a split phase (two pole) power feed that is typical of residences in the USA.
-
+# It was specifically created by Wayne Pirtle to work with Hubitat drivers created specifically to work with this yaml file.
+#  
+# V0.1.0
+#
 # The substitution section makes it simpler to edit this file for your specific needs.
 # The edits made here will be used to populate the naming of entities in the remaining parts of the file. 
 # You should not need to make any adjustments beyond the Substitutions section.
