@@ -58,7 +58,8 @@ public void uninstalled() {
 
 // the parse method is invoked by the API library when messages are received
 public void parse(Map tempMsg) {
-        
+    
+    String type = "Physical"    
     tempMsg.each{key, val -> 
         switch(key) {
             case '_current':
