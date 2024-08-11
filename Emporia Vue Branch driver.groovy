@@ -26,7 +26,8 @@ metadata {
         name: 'ESPHome Emporia Vue Branch Circuit',
         namespace: 'esphome',
         author: 'Wayne Pirtle/Jonathan Bradshaw',
-        singleThreaded: true
+        singleThreaded: true        
+        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20Branch%20driver.groovy'
     ) {
 
         capability 'Actuator'
