@@ -17,4 +17,19 @@ digiblurDIY created his process to support Home Assistant and MQTT. Ignore those
 
 The driver files have been coded expecting the yaml to be fundamentally unchanged with the exception of the "substitutions" section.  Naming of the individual circuits MUST be performed in the Hubitat devices that are created by this process.  Changing the circuit names in the yaml file will break the solution.
 
+Panelboards typically have more circuits that one Vue can monitor, so I devleoped this with the panelboard as the device that is directly installed by the user.  Within the Panelboard the individual Vue devices and thier branch circuits can be created.  Installing the Vue directly may or may not work.  I haven't tested this use, and I do not intend to suport that.
+
+The installation of Vues for a panelboard begins with the installation of the panelboard device.
+
+![image](https://github.com/user-attachments/assets/a2b0453b-bfef-4dfd-a4e3-9e011e8ce389)
+
+The next step is adding the Vues to the panelboard.  This will automatically add sixteen branch circuit devices as child devices of the Vue.
+
+![image](https://github.com/user-attachments/assets/40e362a4-84c5-4c11-a2a7-0c9552f0930d)
+
+This is how the various devices will look when installed.
+
+![image](https://github.com/user-attachments/assets/956f25ce-7a8e-4f71-8b29-bed41e87c9dd)
+
+
  
