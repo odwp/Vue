@@ -1,6 +1,7 @@
 /**
  *  MIT License
  *  Copyright 2022 Jonathan Bradshaw (jb@nrgup.net)
+ *  and Copyright 2024 Wayne Pirtle
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +27,7 @@ metadata {
         namespace: 'esphome',
         author: 'Wayne Pirtle/Jonathan Bradshaw',
         singleThreaded: true,
-   //     importUrl: 'https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-MeteringOutlet.groovy'
+        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20driver.groovy'
     ) {
 
         capability 'Actuator'
@@ -62,7 +63,7 @@ metadata {
                 title: 'Device IP Address',
                 required: true
 
-        input name: 'password',     // optional setting for API library
+        input name: 'password',     // optional setting for API library  // This is not currently implemented
                 type: 'text',
                 title: 'Device Password <i>(if required)</i>',
                 required: false
@@ -150,7 +151,6 @@ public void uninstalled() {
 // driver commands
 public void refresh() {
     log.info "${device} refresh"
-//    state.clear()
     state.requireRefresh = true
     espHomeDeviceInfoRequest()
 }
@@ -188,8 +188,8 @@ public void parse(Map message) {
 
         case 'state':
         
-        // Need to determine if the state is for a device on the main or a branch.
-        // for a branch, send it to the branch child to process further, otherwise let it continue here.
+        // Determine if the state is for a device on the main or a branch.
+        // For a branch, send it to the branch child to process further, otherwise let it continue here.
         
         // Total Daily Energy. Balance Daily Energy, and d3-led need m_ designation.
         
