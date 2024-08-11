@@ -1,4 +1,8 @@
 /**
+----> ESPHome Emporia Vue Panelboard
+----> V0.1.0
+
+
  *  MIT License
  *  Copyright 2024 Wayne Pirtle
  *
