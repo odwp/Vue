@@ -1,6 +1,6 @@
 /**
  *  MIT License
- *  Copyright 2022 Jonathan Bradshaw (jb@nrgup.net)
+ *  Copyright 2024 Wayne Pirtle
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -37,7 +37,6 @@ metadata {
         capability 'VoltageMeasurement'
 
         command "addChildVue", [[name:"Add a Vue.", type: "STRING", description: "Enter the IP address of the Vue you want to add to this panelboard." ]]
-        command "refreshAggregateMeterValues", [[name:"Start Aggregation process.", type: "STRING", description: "Restarts the attribute aggregation process." ]]
 
         attribute 'frequency', 'number'
         attribute 'aCurrent', 'number'
