@@ -1,4 +1,7 @@
 /**
+----> ESPHome Emporia Vue Branch Circuit
+----> V0.1.0
+
  *  MIT License
  *  Copyright 2022 Jonathan Bradshaw (jb@nrgup.net)
  *  and Copyright 2024 Wayne Pirtle
