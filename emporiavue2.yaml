@@ -7,8 +7,8 @@
 substitutions:
   
  #---WIFI ADDRESS SETTING--- 
-  wifi_ip: 192.168.1.140
-  wifi_gateway: 192.168.1.254
+  wifi_ip: 10.1.1.200
+  wifi_gateway: 10.1.1.254
   wifi_subnet: 255.255.255.0
   
 # ---NETWORK NAME---
