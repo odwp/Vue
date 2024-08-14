@@ -9,14 +9,28 @@ ____________________________________________________________
 
 To perform this process you will need the following items:
 
-Install ESPHome on the PC you will use to reprogram youe Vue -> https://esphome.io/ <br>
+1. <b>Python</b> installed python on your computer.  Use the latest version that is in bugfix Maintenance status, 3.12.5 as I write this.  <a href="https://www.python.org/downloads/"> Python Downloads </a><br>
 
-USB Serial adapter to connect your PC and your Vue-> https://www.amazon.com/gp/product/B09KXT6W46/ref=ppx_yo_dt_b_asin_title_o00_s01?ie=UTF8&psc=1<br>
+2. <b>ESPHome</b> installed on the same computer. -> <a href="https://esphome.io/guides/installing_esphome.html">Installing ESPHome Manually<a/> <br>
+
+3. <b>USB Serial adapter</b> to connect your PC and your Vue-> <a href="https://www.amazon.com/gp/product/B09KXT6W46/ref=ppx_yo_dt_b_asin_title_o00_s01?ie=UTF8&psc=1"> DSD TECH SH-U09B3 USB Type C to TTL Serial Adapter with CP2102N Chip</a><br>
 (There are others you can get, but if you intend to use a V3 Vue you will need a Serial adapter that outputs 3.3V.)<br>
 
-Install Jonathan Bradshaw's ESPHome-API-Library on the Hubitat hub you will use.  ->  https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-API-Library.groovy
+4. <b>Female-Female dupont jumper wires.</b> You will use these to connect the USB serial adapter to your Vue.  <a href="https://www.amazon.com/California-JOS-Breadboard-Optional-Multicolored/dp/B0BRTJQGS6/ref=sr_1_6?crid=2ROTJIVG8ZYTA&dib=eyJ2IjoiMSJ9.1IBupQO5VvdNl0r0O-7gG4vy1PpPZjMk0T7UCMO_WARSjFudrFpmolQe-vHYusNtg8G1NNFtfc4ttUTkzVjOBsVP89Ch7n226AngUMiDyEvYtEhU2sEbMUaR19vhCD3oThpP2dJd0KJUrWecIC0uLuR_IgFwWc8K-XK2kf-Z7NUvoSwXDDzfpd24eTVIGF768Gi8l2STnTu88kl_t_OJ_1Vhu1hjOEyhbmCKEXN6aRZvoRGGQNg6iogImNJFLC82WbDtUCVKrgkZV1eYrt-wjcrYK_bKSCd_8YgHuj8MR2I.fNp-LDt8zfoHsVZ1i6GBVNj5p04qHJNwpMnkVHU3Di4&dib_tag=se&keywords=female-female%2Bdupont%2Bwires&qid=1723604929&sprefix=female-female%2Bdupo%2Caps%2C106&sr=8-6&th=1"> 40 PCS 20 CM (8 inch) Breadboard Jumper Wires Wire Length Optional Dupont Cable Assorted Kit Female to Female Multicolored Ribbon Cables</a>
+
+5. <b>Jonathan Bradshaw's ESPHome-API-Library</b> saved in the <i>Library Code</i> page of the Hubitat hub you will use. Create a new file in Library Code. <i>Import</i> the code using following link and save it ->  https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-API-Library.groovy
 _____________________________________________________________          
-Here is a detailed description of how to reprogram your Vue V2.   [https://github.com/emporia-vue-local/esphome](https://github.com/emporia-vue-local/esphome#backing-up--flashing-the-vue-2)  
+Here is a detailed description of how to reprogram your Vue V2.  <a href="https://github.com/emporia-vue-local/esphome"> Setting up Emporia Vue 2 with ESPHome</a>  
+
+Here are the jumper connection to make.  They are a little different than digiblurDIY shows, however he does list these as options if your adapter has the connections available.<br><br>
+  USB Serial Adapter  <-->  Vue<br>
+         TXD <--> TXD<br>
+         RXD <--> RXD<br>
+         GND <--> GND<br>
+         DTR <--> IO0<br>
+         RTS <--> EN<br>
+         3V3 <--> VCC 3V3<br>
+         
 digiblurDIY created his process to support Home Assistant and MQTT. Ignore those references for this Hubitat implementation.  There are changes I made to the yaml file that may/will break its ability to support HA and MQTT.  It is not my intent to support those.
 
 The driver files have been coded expecting the yaml to be fundamentally unchanged with the exception of the "substitutions" section.  Naming of the individual circuits MUST be performed in the Hubitat devices that are created by this process.  Changing the circuit names in the yaml file will break the solution.
