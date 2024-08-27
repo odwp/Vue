@@ -1,11 +1,7 @@
 /**
-----> ESPHome Emporia Vue
-----> V0.1.0
-
-
  *  MIT License
  *  Copyright 2022 Jonathan Bradshaw (jb@nrgup.net)
- *  and Copyright 2024 Wayne Pirtle
+ *  portions Copyright 2024 Wayne Pirtle
  *
  *  Permission is hereby granted, free of charge, to any person obtaining a copy
  *  of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +20,11 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
+
+      Version  Comment                Date           By
+      -------+----------------------+--------------+-----------
+        0.5    Stable Beta           26 Aug 2024    Wayne Pirtle
+
  */
 metadata {
     definition(
@@ -31,7 +32,7 @@ metadata {
         namespace: 'esphome',
         author: 'Wayne Pirtle/Jonathan Bradshaw',
         singleThreaded: true,
-        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20driver.groovy'
+   //     importUrl: 'https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-MeteringOutlet.groovy'
     ) {
 
         capability 'Actuator'
@@ -43,6 +44,8 @@ metadata {
         capability 'Sensor'
         capability 'SignalStrength'
         capability 'VoltageMeasurement'
+        
+        command 'restartVue', [[name:"Reboot the Vue.", description: "Pressing this button will reboot the Vue.  No data will be collected during the reboot." ]]
 
         // attribute populated by ESPHome API Library automatically
         attribute 'networkStatus', 'enum', [ 'connecting', 'online', 'offline' ]
@@ -58,20 +61,22 @@ metadata {
         attribute 'balancePower', 'number'
         attribute 'totalDailyEnergy', 'number'
         attribute 'balanceDailyEnergy', 'number'
+        attribute 'wifiSignalPercent', 'number'
+        attribute 'wifiSignaldBm', 'number'
 
     }
 
     preferences {
-        input name: 'ipAddress',    // required setting for API library
+/*        input name: 'ipAddress',    // required setting for API library
                 type: 'text',
                 title: 'Device IP Address',
                 required: true
 
-        input name: 'password',     // optional setting for API library  // This is not currently implemented
+        input name: 'password',     // optional setting for API library
                 type: 'text',
                 title: 'Device Password <i>(if required)</i>',
                 required: false
-
+*/
         input name: 'logEnable',    // if enabled the library will log debug details
                 type: 'bool',
                 title: 'Enable Debug Logging',
@@ -111,17 +116,19 @@ public void installed() {
     
     //Initialize the attributes
     sendEvent(name: 'aCurrent', value: 0, unit: "A", type: "Physical", descriptionText: "Initializing", Physical: true)
-    sendEvent(name: 'aVoltage', value: 0, unit: "V", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'aPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'bCurrent', value: 0, unit: "A", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'bVoltage', value: 0, unit: "V", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'bPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'totalPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'balancePower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'totalDailyEnergy', value: 0, unit: "Wh", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'balanceDailyEnergy', value: 0, unit: "Wh", type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'phaseAngle', value: 0, unit: '°', type: "Physical", descriptionText: "Initializing")
-    sendEvent(name: 'frequency', value: 0, unit: 'Hz', type: "Physical", descriptionText: "Initializing")
+    sendEvent(name: 'aVoltage', value: 0, unit: "V", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'aPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'bCurrent', value: 0, unit: "A", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'bVoltage', value: 0, unit: "V", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'bPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'totalPower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'balancePower', value: 0, unit: "W", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'totalDailyEnergy', value: 0, unit: "Wh", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'balanceDailyEnergy', value: 0, unit: "Wh", type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'phaseAngle', value: 0, unit: '°', type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'frequency', value: 0, unit: 'Hz', type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'wifiSignalPercent', value: 0, unit: '%', type: "Physical", descriptionText: "Initializing", Physical: true)
+    sendEvent(name: 'wifiSignaldBm', value: 0, unit: 'dBm', type: "Physical", descriptionText: "Initializing", Physical: true)
     
 }
 
@@ -155,6 +162,7 @@ public void uninstalled() {
 // driver commands
 public void refresh() {
     log.info "${device} refresh"
+//    state.clear()
     state.requireRefresh = true
     espHomeDeviceInfoRequest()
 }
@@ -192,8 +200,8 @@ public void parse(Map message) {
 
         case 'state':
         
-        // Determine if the state is for a device on the main or a branch.
-        // For a branch, send it to the branch child to process further, otherwise let it continue here.
+        // Need to determine if the state is for a device on the main or a branch.
+        // for a branch, send it to the branch child to process further, otherwise let it continue here.
         
         // Total Daily Energy. Balance Daily Energy, and d3-led need m_ designation.
         
@@ -305,12 +313,27 @@ public void parse(Map message) {
                         if (logTextEnable) { log.info descriptionText }
                     break
 
+                    case 'wifi_signal_percent':
+                        Float wifiSigPct = round(message.state as Float, 1)
+                        String unit = '%'
+                        descriptionText = "Wifi signal strength % is ${wifiSigPct}"
+                        sendEvent(name: 'wifiSignalPercent', value: wifiSigPct, unit: unit, type: type, descriptionText: descriptionText)
+                        if (logTextEnable) { log.info descriptionText }
+                    break
+
+                  case 'wifi_signal_dbm':
+                        Float wifiSigDbm = round(message.state as Float, 1)
+                        String unit = 'dBm'
+                        descriptionText = "Wifi signal strength is ${wifiSigDbm} dBm"
+                        sendEvent(name: 'wifiSignaldBm', value: wifiSigDbm, unit: unit, type: type, descriptionText: descriptionText)
+                        if (logTextEnable) { log.info descriptionText }
+                    break
                     } 
 
                 } else {
                     tempMap.each{key, value ->
-                        log.debug "tempMap --> ${tempMap}"
-                        log.debug "Retriving key -> ${device.label}-${key}  value-> ${value}"
+     //                   log.debug "tempMap --> ${tempMap}"
+     //                   log.debug "Retriving key -> ${device.label}-${key}  value-> ${value}"
                         def cd = getChildDevice("${device.label}-${key}")
                         Map msg2Child = [(value) : (message.state)]
                         cd.parse(msg2Child)
@@ -320,6 +343,12 @@ public void parse(Map message) {
         }
    }
 }
+
+public void restartVue(){
+    espHomeButtonCommand(["rebootVue",1])
+}
+
+
 private static float round(float f, int decimals = 0) {
     return new BigDecimal(f).setScale(decimals, java.math.RoundingMode.HALF_UP).floatValue();
 }
