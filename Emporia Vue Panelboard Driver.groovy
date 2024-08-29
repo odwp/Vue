@@ -31,7 +31,7 @@ metadata {
         namespace: 'esphome',
         author: 'Wayne Pirtle',
         singleThreaded: true,
-   //     importUrl: 'https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-MeteringOutlet.groovy'
+        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20Panelboard%20Driver.groovy'
     ) {
 
         capability 'Actuator'
@@ -89,6 +89,7 @@ metadata {
 
 public void installed() {
     log.info "${device} driver installed"
+    state.maxVueNo = 0
     
     //Initialize the attributes
     sendEvent(name: 'aCurrent', value: 0, unit: "A", type: "Physical", descriptionText: "Initializing", Physical: true)
@@ -144,7 +145,8 @@ void addChildVue(ipaddress) {
     }
     log.info "This Vue exists already?: ${vueExists}"
     if (!vueExists) {
-        newChild = addChildDevice("esphome", "ESPHome Emporia Vue", "${device}-Vue${cds.size()+1}", [name: "${device}-Vue${cds.size()+1}", label: "${device}-Vue${cds.size()+1}",isComponent: true])
+        state.maxVueNo = state.maxVueNo + 1
+        newChild = addChildDevice("esphome", "ESPHome Emporia Vue", "${device}-Vue${state.maxVueNo}", [name: "${device}-Vue${state.maxVueNo}", label: "${device}-Vue${state.maxVueNo}",isComponent: true])
         newChild.updateSetting("ipAddress", ipaddress)
         newChild.updateDataValue("IPv4 Address", ipaddress)
         newChild.initialize()
@@ -170,10 +172,10 @@ public def attachedVues(){
     log.info "getChildDevices: ${getChildDevices()}"
     List myVues = getChildDevices()
     log.info "myVues: ${myVues}"
-/*    if(myVues.isNull){
+  /*    if(myVues.isNull){
         myVues=[None]
     }
-*/
+  */
     log.info "List of attached Vues: ${myVues}"
     updateSetting("connectedVues", [type: "List", value: myVues.collect{ '"' + it + '"'}])
     

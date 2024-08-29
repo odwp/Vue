@@ -31,8 +31,9 @@ Here are the jumper connection to make.  They are a little different than digibl
          RXD <--> RXD<br>
          GND <--> GND<br>
          DTR <--> IO0<br>
-         DSR <--> EN<br>
          3V3 <--> VCC 3V3<br>
+
+If your serial cable does not have DTR connect the IO0 pin to GND.
          
 digiblurDIY created his process to support Home Assistant and MQTT. Ignore those references for this Hubitat implementation.  There are changes I made to the yaml file that may/will break its ability to support HA and MQTT.  It is not my intent to support those.
 
