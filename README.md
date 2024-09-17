@@ -5,9 +5,9 @@ Beta V 0.5 published 26 Aug 2024
 
 This is a solution to locally integrate Emporia Vue V2 and V3 power monitoring into Hubitat.  It is currently an early Alpha version of the files.  The existing files only support Vue2 devices right now.  V3 support will come later.
 
-If you have wandered here on your own, be aware integrating Emporia Vue devices locally to Hubitat is an extremely non-trivial process.  This requires reprogramming the Vues you want to integrate.  <b/>OPENING AND REPROGRAMMING YOUR VUE WILL VOID YOUR EMPORIA WARRANTY!!!</b>
+If you have wandered here on your own, be aware integrating Emporia Vue devices locally to Hubitat is an extremely non-trivial process.  This requires reprogramming the Vues you want to integrate.  <b/>OPENING AND REPROGRAMMING YOUR VUE COULD VOID YOUR EMPORIA WARRANTY!!!</b>
 
-<b/>The use of these files and process is at your own risk.  There is no warranty either explicit or implied.</b>
+<b/>The use of these files and process is at your own risk.  There is no warranty either expressed or implied.</b>
 ____________________________________________________________
 
 To perform this process you will need the following items:
