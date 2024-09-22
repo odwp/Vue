@@ -1,7 +1,4 @@
 /**
-----> ESPHome Emporia Vue Branch Circuit
-----> V0.1.0
-
  *  MIT License
  *  Copyright 2022 Jonathan Bradshaw (jb@nrgup.net)
  *  and Copyright 2024 Wayne Pirtle
@@ -23,13 +20,18 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
- */
+ 
+      Version  Comment                Date           By
+      -------+----------------------+--------------+-----------
+        0.5    Stable Beta           26 Aug 2024    Wayne Pirtle
+
+*/
 metadata {
     definition(
         name: 'ESPHome Emporia Vue Branch Circuit',
         namespace: 'esphome',
         author: 'Wayne Pirtle/Jonathan Bradshaw',
-        singleThreaded: true        
+        singleThreaded: true,        
         importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20Branch%20driver.groovy'
     ) {
 
