@@ -21,9 +21,11 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *  SOFTWARE.
 
-      Version  Comment                Date           By
-      -------+----------------------+--------------+-----------
-        0.5    Stable Beta           26 Aug 2024    Wayne Pirtle
+      Version  Comment                                      Date           By
+      -------+---------------------------------------------+--------------+-----------
+        0.5    Stable Beta                                  26 Aug 2024    Wayne Pirtle
+        0.5.1  Fixed error when adding Vue after removing 
+               Vue with a lower ID                          27 Aug 2024    Wayne Pirtle
 
  */
 metadata {
@@ -32,7 +34,7 @@ metadata {
         namespace: 'esphome',
         author: 'Wayne Pirtle/Jonathan Bradshaw',
         singleThreaded: true,
-   //     importUrl: 'https://raw.githubusercontent.com/bradsjm/hubitat-drivers/main/ESPHome/ESPHome-MeteringOutlet.groovy'
+        importUrl: 'https://raw.githubusercontent.com/odwp/Vue/main/Emporia%20Vue%20driver.groovy'
     ) {
 
         capability 'Actuator'
